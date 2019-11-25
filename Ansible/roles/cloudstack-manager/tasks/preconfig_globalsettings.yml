@@ -30,14 +30,6 @@
   tags:
     - "global_settings"
 
-- name: Overwrite built-in template location
-  acs_mysql_update: DBHOST="{{ mysql_master_ip }}" DBUSER="cloud" DBPASS={{ mysql_cloud_password }} MYSQL_STATEMENT="UPDATE cloud.vm_template SET url='{{ item.url }}' WHERE id='{{ item.id }}';"
-  with_items:
-  - "{{ local_builtin_templates }}"
-  when: use_local_templates and ("primary_cs_manager" in group_names)
-  tags:
-    - "global_settings"
-
 - name: Boost SSVM offering when using VMWare
   acs_mysql_update: DBHOST="{{ mysql_master_ip }}" DBUSER="cloud" DBPASS={{ mysql_cloud_password }} MYSQL_STATEMENT="UPDATE cloud.service_offering SET {{ item.field}}='{{ item.value }}' WHERE vm_type='secondarystoragevm';"
   with_items:
